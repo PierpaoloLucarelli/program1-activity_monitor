@@ -1,5 +1,4 @@
 from sense_hat import SenseHat
-import time
 hat = SenseHat()
 
 def _drawCross():
@@ -73,11 +72,6 @@ def _draw_empty_circle():
 	]
 
 	hat.set_pixels(circle)
-
-	time.sleep(5)
-
-	#transition to acitvated state (green full circle)
-	_draw_full_circle()
 
 def _draw_full_circle():
 	hat.clear(0,0,0)

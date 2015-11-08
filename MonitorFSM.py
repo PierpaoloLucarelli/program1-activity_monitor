@@ -25,7 +25,9 @@ class MonitorFSM(FSM):
                     return ("activated", "empty_circle_red")
             elif inp != "IRSens":  #for any input other than Sensor input and dirKeys
                 print("unacepted input")
+                self.codeState = 0
                 return("deactivated", "cross") #machine state back to start (deactivated)
+                
 
         #handle the ir sensor event
         if state == "deactivated" and inp == "IRSens":
@@ -50,6 +52,7 @@ class MonitorFSM(FSM):
                     return ("deactivated", "cross")
 
             elif inp != "IRSens" : #for any input other that IRsens and dirKeys 
+                self.codeState = 0
                 return ("activated", "full_circle_green") #return to activated state
 
     def check_code(self,inp):
