@@ -55,15 +55,17 @@ class GUI(Tk):
 
 
 	def _onKeyPress(self, event):
-		# print(event.keysym)
-		output = self.fsm.step(event.keysym)
-		# print (output)
-		self._process(output);
+		if self.fsm.state != "deactivated-in-trans":
+			# print(event.keysym)
+			output = self.fsm.step(event.keysym)
+			# print (output)
+			self._process(output);
 
 	def _IRSensorEvent(self, channel):
-		print (self.fsm.state)
-		output = self.fsm.step("IRSens")
-		self._process(output)
+		if self.fsm.state == "activated" or self.fsm.state == "activated-trans":
+			print (self.fsm.state)
+			output = self.fsm.step("IRSens")
+			self._process(output)
 
 
 
@@ -87,7 +89,6 @@ class GUI(Tk):
 			DRAW._draw_empty_circle()
 			self.after(5000, DRAW._draw_full_circle)
 			self.after(5001, self.change_to_activated)
-			self.fsm.state = "activated"
 		elif output == "full_circle_green":
 			DRAW._draw_full_circle()
 			self.state_label.configure(text="ACTIVATED")
@@ -100,9 +101,11 @@ class GUI(Tk):
 	def change_to_activated(self):
 		self.state_label.configure(text = "ACTIVATED", fg = "green")
 		self.message_label.configure(text="", fg = "green")
+		self.fsm.state = "activated"
 
 		
 
 if __name__ == '__main__':
 	app = GUI()
 	app.mainloop()
+	GPIO.cleanup()

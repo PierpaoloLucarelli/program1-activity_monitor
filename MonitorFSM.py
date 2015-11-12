@@ -22,18 +22,12 @@ class MonitorFSM(FSM):
                     return ("deactivated-trans", "right_arrow")
                 elif self.codeState == "accepted": 
                     self.codeState = 0    #when code is correct reset the code state to zero and ouput red circle 
-                    return ("activated", "empty_circle_red")
+                    return ("deactivated-in-trans", "empty_circle_red")
             elif inp != "IRSens":  #for any input other than Sensor input and dirKeys
                 print("unacepted input")
                 self.codeState = 0
                 return("deactivated", "cross") #machine state back to start (deactivated)
                 
-
-        #handle the ir sensor event
-        if state == "deactivated" and inp == "IRSens":
-            return("deactivated", "cross") #return current state and output
-        elif state == "deactivated-trans" and inp == "IRSens":
-            return ("deactivated-trans", "right_arrow") #return current state and output
 
         #from here machine is in activated sate
         elif state == "activated" or state == "activated-trans":
